@@ -11,6 +11,9 @@ import com.lmiky.jdp.json.jackson.JsonMapperImpl;
 public class JsonUtils {
 	//private static JsonMapper jsonMapper = (JsonMapper)Environment.getBean(PropertiesUtils.getStringContextValue("json.jsonMapperName"));
 	private static JsonMapper jsonMapper = new JsonMapperImpl();
+	static {
+		jsonMapper.init();
+	}
 	
 	/**
 	 * 将对象转为json字符串
