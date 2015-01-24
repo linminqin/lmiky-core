@@ -1,4 +1,4 @@
-package com.lmiky.jdp.controllerview;
+package com.lmiky.jdp.controller.view;
 
 import java.util.Map;
 

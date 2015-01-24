@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.ModelMap;
 
-import com.lmiky.jdp.controllerview.BaseCode;
-import com.lmiky.jdp.controllerview.BaseCodeView;
+import com.lmiky.jdp.controller.view.BaseCode;
+import com.lmiky.jdp.controller.view.BaseCodeView;
 import com.lmiky.jdp.exception.BaseCodeException;
 import com.lmiky.jdp.logger.util.LoggerUtils;
 import com.lmiky.jdp.service.BaseService;

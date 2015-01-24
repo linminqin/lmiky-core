@@ -95,13 +95,24 @@ public class DateUtils {
 	}
 	
 	/**
-	 * 字符串转时间，用默认的时间格式
+	 * 字符串转时间，用默认的日期格式
+	 * @author lmiky
+	 * @date 2015年1月16日 下午2:39:47
+	 * @param date
+	 * @return
+	 */
+	public static Date parseTime(String date) {
+		return parse(date, Constants.CONTEXT_KEY_FORMAT_TIME_VALUE);
+	}
+	
+	/**
+	 * 字符串转时间，用默认的日期时间格式
 	 * @author
 	 * @date 2013-5-16
 	 * @param date
 	 * @return
 	 */
-	public static Date parseTime(String date) {
+	public static Date parseDateTime(String date) {
 		return parse(date, Constants.CONTEXT_KEY_FORMAT_DATETIME_VALUE);
 	}
 	

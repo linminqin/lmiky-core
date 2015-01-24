@@ -1,4 +1,4 @@
-package com.lmiky.jdp.controllerview;
+package com.lmiky.jdp.controller.view;
 
 /**
  * 接过码
@@ -13,8 +13,4 @@ public class BaseCode {
 	public static final int CODE_SUCCESS = 200;
 	public static final int CODE_ERROR = 500;
 	
-	//账号
-	public static final int CODE_ACCOUNT_REGISTERED = 1001;	//账号已被注册
-	public static final int CODE_ACCOUNT_LOGINNAME_NOTEXISTS = 1005;	//账号不存在
-	public static final int CODE_ACCOUNT_PWD_ERROR = 1006;	//密码错误
 }

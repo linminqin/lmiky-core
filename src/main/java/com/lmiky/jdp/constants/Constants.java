@@ -28,6 +28,6 @@ public class Constants {
 	
 	//文件上传路径
 	//临时目录
-	public static final String SYSTEM_FILE_UPLOAD_PATH_TEMP11 = "system.file.upload.path.temp";
+	public static final String SYSTEM_FILE_UPLOAD_PATH_TEMP = "system.file.upload.path.temp";
 	public static final String SYSTEM_FILE_PATH = "system.file.path";
 }
