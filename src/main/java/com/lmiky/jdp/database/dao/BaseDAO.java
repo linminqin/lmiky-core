@@ -306,6 +306,17 @@ public interface BaseDAO {
 	/**
 	 * 查询对象列表
 	 * @author lmiky
+	 * @date 2015年1月24日 下午2:42:26
+	 * @param pojoClass
+	 * @param sort
+	 * @return
+	 * @throws DatabaseException
+	 */
+	public <T extends BasePojo> List<T> list(Class<T> pojoClass, Sort sort) throws DatabaseException;
+	
+	/**
+	 * 查询对象列表
+	 * @author lmiky
 	 * @date 2014-1-3
 	 * @param pojoClass
 	 * @param propertyFilter
@@ -314,6 +325,17 @@ public interface BaseDAO {
 	 * @throws DatabaseException
 	 */
 	public <T extends BasePojo> List<T> list(Class<T> pojoClass, PropertyFilter propertyFilter, Sort sort) throws DatabaseException;
+	
+	/**
+	 * 查询对象列表
+	 * @author lmiky
+	 * @date 2015年1月24日 下午2:42:55
+	 * @param pojoClass
+	 * @param sorts
+	 * @return
+	 * @throws DatabaseException
+	 */
+	public <T extends BasePojo> List<T> list(Class<T> pojoClass, List<Sort> sorts) throws DatabaseException;
 	
 	/**
 	 * 查询对象列表

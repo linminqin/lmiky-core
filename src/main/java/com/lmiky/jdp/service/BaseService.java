@@ -308,6 +308,17 @@ public interface BaseService {
 	/**
 	 * 查询对象列表
 	 * @author lmiky
+	 * @date 2015年1月24日 下午2:48:09
+	 * @param pojoClass
+	 * @param sort
+	 * @return
+	 * @throws ServiceException
+	 */
+	public <T extends BasePojo> List<T> list(Class<T> pojoClass, Sort sort) throws ServiceException;
+	
+	/**
+	 * 查询对象列表
+	 * @author lmiky
 	 * @date 2014-1-3
 	 * @param pojoClass
 	 * @param propertyFilter
@@ -316,6 +327,17 @@ public interface BaseService {
 	 * @throws ServiceException
 	 */
 	public <T extends BasePojo> List<T> list(Class<T> pojoClass, PropertyFilter propertyFilter, Sort sort) throws ServiceException;
+	
+	/**
+	 * 查询对象列表
+	 * @author lmiky
+	 * @date 2015年1月24日 下午2:48:34
+	 * @param pojoClass
+	 * @param sorts
+	 * @return
+	 * @throws ServiceException
+	 */
+	public <T extends BasePojo> List<T> list(Class<T> pojoClass, List<Sort> sorts) throws ServiceException;
 	
 	/**
 	 * 查询对象列表
