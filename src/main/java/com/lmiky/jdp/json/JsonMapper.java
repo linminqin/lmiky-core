@@ -35,6 +35,18 @@ public interface JsonMapper {
 	public <T> T fromJson(String json, Class<T> objectClass) throws Exception;	
 	
 	/**
+	 * 将json转为对象
+	 * @author lmiky
+	 * @date 2015年1月28日 上午11:18:27
+	 * @param json
+	 * @param objectClass 泛型类
+	 * @param parameterClasses 泛型内参数类
+	 * @return
+	 * @throws Exception
+	 */
+	public <T> T fromJson(String json, Class<T> objectClass, Class<?>... parameterClasses) throws Exception;	
+	
+	/**
 	 * 销毁
 	 * @author lmiky
 	 * @date 2013-5-19

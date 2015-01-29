@@ -40,4 +40,17 @@ public class JsonUtils {
 		return jsonMapper.fromJson(json, objectClass);
 	}
 	
+	/**
+	 * 方法说明
+	 * @author lmiky
+	 * @date 2015年1月28日 上午11:21:33
+	 * @param json
+	 * @param objectClass 泛型类
+	 * @param parameterClasses 泛型内参数类
+	 * @return
+	 * @throws Exception
+	 */
+	public static <T> T fromJson(String json, Class<T> objectClass, Class<?>... parameterClasses) throws Exception {
+		return jsonMapper.fromJson(json, objectClass, parameterClasses);
+	}
 }

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import org.codehaus.jackson.type.JavaType;
 import org.springframework.stereotype.Component;
 
 import com.lmiky.jdp.json.JsonMapper;
@@ -59,6 +60,22 @@ public class JsonMapperImpl implements JsonMapper {
 		}
 		try {
 			return mapper.readValue(json, objectClass);
+		} catch (Exception e) {
+			LoggerUtils.warn(String.format("将json字符串转为对象错误: %s", e));
+			throw e;
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.lmiky.jdp.json.JsonMapper#fromJson(java.lang.String, java.lang.Class, java.lang.Class[])
+	 */
+	public <T> T fromJson(String json, Class<T> objectClass, Class<?>... parameterClasses) throws Exception {
+		if(StringUtils.isBlank(json)) {
+			return null;
+		}
+		try {
+			JavaType javaType = mapper.getTypeFactory().constructParametricType(objectClass, parameterClasses);
+			return mapper.readValue(json, javaType);
 		} catch (Exception e) {
 			LoggerUtils.warn(String.format("将json字符串转为对象错误: %s", e));
 			throw e;
