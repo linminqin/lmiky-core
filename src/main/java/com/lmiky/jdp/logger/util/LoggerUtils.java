@@ -210,8 +210,13 @@ public class LoggerUtils {
 			logNum = stackTraceElements.length;
 		}
 		// 记录异常跟踪信息
+		StackTraceElement stackTraceElement = null;
 		for (int i = 0; i < logNum; i++) {
-			error(String.format("Caused by: %s", stackTraceElements[i]));
+			stackTraceElement = stackTraceElements[i];
+			if(stackTraceElement == null) {
+				break;
+			}
+			error(String.format("Caused by: %s", stackTraceElement));
 		}
 	}
 	
