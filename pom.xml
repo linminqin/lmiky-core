@@ -16,6 +16,7 @@
 		<org.codehaus.jackson.version>1.9.13</org.codehaus.jackson.version>
 		<org.apache.httpcomponents.version>4.3.1</org.apache.httpcomponents.version>
 		<com.google.zxing.version>3.1.0</com.google.zxing.version>
+		<org.igniterealtime.smack.version>4.0.7</org.igniterealtime.smack.version>
 	</properties>
 
 
@@ -284,6 +285,23 @@
 		    <groupId>org.quartz-scheduler</groupId>
 		    <artifactId>quartz</artifactId>
 		    <version>2.2.1</version>
+		</dependency>
+		
+		<!-- smack -->
+		<dependency>
+			<groupId>org.igniterealtime.smack</groupId>
+			<artifactId>smack-core</artifactId>
+			<version>${org.igniterealtime.smack.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.igniterealtime.smack</groupId>
+			<artifactId>smack-tcp</artifactId>
+			<version>${org.igniterealtime.smack.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.igniterealtime.smack</groupId>
+			<artifactId>smack-extensions</artifactId>
+			<version>${org.igniterealtime.smack.version}</version>
 		</dependency>
 		
 	</dependencies>
