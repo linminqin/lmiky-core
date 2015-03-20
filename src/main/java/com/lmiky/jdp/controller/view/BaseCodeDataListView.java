@@ -19,9 +19,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class BaseCodeDataListView extends BaseCodeDataView {
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.wxly.jdp.controllerview.BaseCodeDataView#fillData(java.util.Map, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.util.Map, java.util.Map)
+	/* (non-Javadoc)
+	 * @see com.lmiky.jdp.controller.view.BaseCodeDataView#fillData(java.util.Map, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.util.Map, java.util.Map)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override

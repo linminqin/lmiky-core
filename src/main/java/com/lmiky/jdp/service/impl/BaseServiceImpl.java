@@ -87,7 +87,7 @@ public class BaseServiceImpl implements BaseService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.service.BaseService#find(java.lang.Class, java.util.Map)
+	 * @see com.lmiky.jdp.service.BaseService#find(java.lang.Class, java.util.Map)
 	 */
 	@Transactional(readOnly=true)
 	public <T extends BasePojo> T find(Class<T> pojoClass, Map<String, Object> params) throws ServiceException {
@@ -105,7 +105,11 @@ public class BaseServiceImpl implements BaseService {
 	@Transactional(rollbackFor={Exception.class})
 	public <T extends BasePojo> void save(T pojo) throws ServiceException {
 		try {
-			getDAO().save(pojo);
+			if(pojo.getId() == null) {
+				add(pojo);
+			} else {
+				update(pojo);
+			}
 		} catch (DatabaseException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -343,7 +347,7 @@ public class BaseServiceImpl implements BaseService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.service.BaseService#list(java.lang.Class, java.lang.String, java.lang.Object)
+	 * @see com.lmiky.jdp.service.BaseService#list(java.lang.Class, java.lang.String, java.lang.Object)
 	 */
 	@Transactional(readOnly=true)
 	public <T extends BasePojo> List<T> list(Class<T> pojoClass, String propertyName, Object propertyValue) throws ServiceException {
@@ -355,7 +359,7 @@ public class BaseServiceImpl implements BaseService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.service.BaseService#list(java.lang.Class, java.util.Map)
+	 * @see com.lmiky.jdp.service.BaseService#list(java.lang.Class, java.util.Map)
 	 */
 	@Transactional(readOnly=true)
 	public <T extends BasePojo> List<T> list(Class<T> pojoClass, Map<String, Object> params) throws ServiceException {
@@ -528,7 +532,7 @@ public class BaseServiceImpl implements BaseService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.service.BaseService#count(java.lang.Class, java.util.Map)
+	 * @see com.lmiky.jdp.service.BaseService#count(java.lang.Class, java.util.Map)
 	 */
 	@Transactional(readOnly=true)
 	public <T extends BasePojo> int count(Class<T> pojoClass, Map<String, Object> params) throws ServiceException {
@@ -564,7 +568,7 @@ public class BaseServiceImpl implements BaseService {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.service.BaseService#exist(java.lang.Class, java.util.Map)
+	 * @see com.lmiky.jdp.service.BaseService#exist(java.lang.Class, java.util.Map)
 	 */
 	@Transactional(readOnly=true)
 	public <T extends BasePojo> boolean exist(Class<T> pojoClass, Map<String, Object> params) throws ServiceException {

@@ -498,7 +498,7 @@ public class BaseDAOImpl implements BaseDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.database.dao.BaseDAO#find(java.lang.Class, java.util.Map)
+	 * @see com.lmiky.jdp.database.dao.BaseDAO#find(java.lang.Class, java.util.Map)
 	 */
 	public <T extends BasePojo> T find(Class<T> pojoClass, Map<String, Object> params) throws DatabaseException {
 		try {
@@ -814,7 +814,7 @@ public class BaseDAOImpl implements BaseDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.database.dao.BaseDAO#list(java.lang.Class, java.lang.String, java.lang.Object)
+	 * @see com.lmiky.jdp.database.dao.BaseDAO#list(java.lang.Class, java.lang.String, java.lang.Object)
 	 */
 	@Override
 	public <T extends BasePojo> List<T> list(Class<T> pojoClass, String propertyName, Object propertyValue) throws DatabaseException {
@@ -826,7 +826,7 @@ public class BaseDAOImpl implements BaseDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.database.dao.BaseDAO#list(java.lang.Class, java.util.Map)
+	 * @see com.lmiky.jdp.database.dao.BaseDAO#list(java.lang.Class, java.util.Map)
 	 */
 	@Override
 	public <T extends BasePojo> List<T> list(Class<T> pojoClass, Map<String, Object> params) throws DatabaseException {
@@ -1047,7 +1047,7 @@ public class BaseDAOImpl implements BaseDAO {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.database.dao.BaseDAO#count(java.lang.Class, java.util.Map)
+	 * @see com.lmiky.jdp.database.dao.BaseDAO#count(java.lang.Class, java.util.Map)
 	 */
 	@Override
 	public <T extends BasePojo> int count(Class<T> pojoClass, Map<String, Object> params) throws DatabaseException {
@@ -1108,7 +1108,7 @@ public class BaseDAOImpl implements BaseDAO {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.database.dao.BaseDAO#exist(java.lang.Class, java.util.Map)
+	 * @see com.lmiky.jdp.database.dao.BaseDAO#exist(java.lang.Class, java.util.Map)
 	 */
 	@Override
 	public <T extends BasePojo> boolean exist(Class<T> pojoClass, Map<String, Object> params) throws DatabaseException {

@@ -68,7 +68,7 @@ public class ObjectCacheImpl implements ObjectCache {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.wxly.jdp.cache.model.ObjectCache#size()
+	 * @see com.lmiky.jdp.cache.model.ObjectCache#size()
 	 */
 	public int size() throws CacheException {
 		try {
