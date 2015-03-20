@@ -2,7 +2,6 @@ package com.lmiky.jdp.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +28,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.util.CollectionUtils;
-
-import com.lmiky.jdp.logger.util.LoggerUtils;
 
 /**
  * HTTP请求工具
@@ -83,8 +80,9 @@ public class HttpUtils {
 	 * @date 2014-8-7 上午11:07:04
 	 * @param httpRequestBase
 	 * @param httpClient
+	 * @throws IOException 
 	 */
-	private static void close(HttpRequestBase httpRequestBase, HttpClient httpClient) {
+	private static void close(HttpRequestBase httpRequestBase, HttpClient httpClient) throws IOException {
 		// if(httpRequestBase != null) {
 		// httpRequestBase.releaseConnection();
 		// }
@@ -94,7 +92,7 @@ public class HttpUtils {
 					((CloseableHttpClient) httpClient).close();
 				}
 			} catch (IOException e) {
-				LoggerUtils.logException(e);
+				throw e;
 			}
 		}
 	}
@@ -105,16 +103,15 @@ public class HttpUtils {
 	 * @date 2014-8-7 下午2:27:42
 	 * @param httpRequestBase
 	 * @return
+	 * @throws Exception 
 	 */
-	private static String execute(HttpRequestBase httpRequestBase) {
+	private static String execute(HttpRequestBase httpRequestBase) throws Exception {
 		CloseableHttpClient httpClient = (CloseableHttpClient) createDefaultClient();
 		try {
 			// 构建请求内容
 			return httpClient.execute(httpRequestBase, new HttpResponseHandler());
 		} catch (Exception e) {
-			e.printStackTrace();
-			LoggerUtils.logException(e);
-			return null;
+			throw e;
 		} finally {
 			// 关闭资源
 			close(httpRequestBase, httpClient);
@@ -145,9 +142,10 @@ public class HttpUtils {
 	 * @date 2013-11-17
 	 * @param url
 	 * @return
+	 * @throws Exception 
 	 * @throws IOException
 	 */
-	public static String get(String url) {
+	public static String get(String url) throws Exception {
 		return get(url, null, null);
 	}
 
@@ -158,8 +156,9 @@ public class HttpUtils {
 	 * @param url
 	 * @param params
 	 * @return
+	 * @throws Exception 
 	 */
-	public static String get(String url, Map<String, String> params) {
+	public static String get(String url, Map<String, String> params) throws Exception {
 		return get(url, params, null);
 	}
 
@@ -171,8 +170,9 @@ public class HttpUtils {
 	 * @param params
 	 * @param charset
 	 * @return
+	 * @throws Exception 
 	 */
-	public static String get(String url, Map<String, String> params, String charset) {
+	public static String get(String url, Map<String, String> params, String charset) throws Exception {
 		if (StringUtils.isBlank(url)) {
 			return null;
 		}
@@ -201,8 +201,9 @@ public class HttpUtils {
 	 * @param url
 	 * @param params
 	 * @return
+	 * @throws Exception 
 	 */
-	public static String post(String url, Map<String, String> params) {
+	public static String post(String url, Map<String, String> params) throws Exception {
 		return post(url, params, null);
 	}
 
@@ -214,8 +215,9 @@ public class HttpUtils {
 	 * @param params
 	 * @param charset
 	 * @return
+	 * @throws Exception 
 	 */
-	public static String post(String url, Map<String, String> params, String charset) {
+	public static String post(String url, Map<String, String> params, String charset) throws Exception {
 		if (StringUtils.isBlank(url)) {
 			return null;
 		}
@@ -229,9 +231,8 @@ public class HttpUtils {
 			HttpPost httpPost = new HttpPost(url);
 			httpPost.setEntity(formEntity);
 			return execute(httpPost);
-		} catch (UnsupportedEncodingException e) {
-			LoggerUtils.logException(e);
-			return null;
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 
@@ -256,8 +257,9 @@ public class HttpUtils {
 	 * @param charset
 	 * @param content
 	 * @return
+	 * @throws Exception 
 	 */
-	public static String post(String url, String charset, String content) {
+	public static String post(String url, String charset, String content) throws Exception {
 		if (StringUtils.isBlank(url)) {
 			return null;
 		}
@@ -267,9 +269,8 @@ public class HttpUtils {
 			StringEntity entity = new StringEntity(content, StringUtils.isBlank(charset) ? CHARSET_DEFAULT : charset);
 			httpPost.setEntity(entity);
 			return execute(httpPost);
-		} catch (UnsupportedEncodingException e) {
-			LoggerUtils.logException(e);
-			return null;
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 
@@ -280,8 +281,9 @@ public class HttpUtils {
 	 * @param url
 	 * @param file
 	 * @return
+	 * @throws Exception 
 	 */
-	public static String postFile(String url, File file) {
+	public static String postFile(String url, File file) throws Exception {
 		if (StringUtils.isBlank(url)) {
 			return null;
 		}
@@ -306,8 +308,9 @@ public class HttpUtils {
 	 * @param file
 	 * @param httpKey
 	 * @return
+	 * @throws Exception 
 	 */
-	public static String postFile(String url, File file, String httpKey) {
+	public static String postFile(String url, File file, String httpKey) throws Exception {
 		if (StringUtils.isBlank(url)) {
 			return null;
 		}

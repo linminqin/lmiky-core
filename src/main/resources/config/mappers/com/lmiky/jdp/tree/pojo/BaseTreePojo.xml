@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.wxly.jdp.tree.pojo.BaseTreePojo">
-	<resultMap type="BaseTreePojo" id="baseTreePojo" extends="com.wxly.jdp.sort.pojo.BaseSortPojo.baseSortPojo">
+<mapper namespace="com.lmiky.jdp.tree.pojo.BaseTreePojo">
+	<resultMap type="BaseTreePojo" id="baseTreePojo" extends="com.lmiky.jdp.sort.pojo.BaseSortPojo.baseSortPojo">
 		<result column="name" property="name"/>
 		<result column="leaf" property="leaf"/>
-		<association property="parent" column="parentId" select="com.wxly.jdp.tree.pojo.BaseTreePojo.findById"/>
-		<collection property="children" column="id" select="com.wxly.jdp.tree.pojo.BaseTreePojo.listByParent" />
+		<association property="parent" column="parentId" select="com.lmiky.jdp.tree.pojo.BaseTreePojo.findById"/>
+		<collection property="children" column="id" select="com.lmiky.jdp.tree.pojo.BaseTreePojo.listByParent" />
 	</resultMap>
 
 	<sql id="tableName">

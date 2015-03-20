@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.constants.Constants;
 
 /**
  * response工具
@@ -13,7 +13,7 @@ import com.lmiky.jdp.util.PropertiesUtils;
  * @date 2013-6-18
  */
 public class ResponseUtils {
-	public static final String DEFAULT_CODE = PropertiesUtils.getStringContextValue("system.encode");
+	public static final String DEFAULT_CODE = Constants.SYSTEM_ENCODE;
 
 	/**
 	 * 初始化response头部

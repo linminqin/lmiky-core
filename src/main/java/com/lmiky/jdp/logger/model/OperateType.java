@@ -15,7 +15,4 @@ public class OperateType {
 	public static final String OPE_TYPE_LOGIN = "login";
 	public static final String OPE_TYPE_LOGOUT = "logout";
 	
-	//内容管理
-	public static final String OPE_TYPE_CMS_RESOURCE_PUBLISH = "cms_resource_publish";	//文章发布
-	public static final String OPE_TYPE_CMS_RESOURCE_UNPUBLISH = "cms_resource_unpublish";	//取消文章发布
 }

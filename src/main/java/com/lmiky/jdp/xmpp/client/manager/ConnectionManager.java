@@ -1,21 +1,21 @@
-package com.lmiky.jdp.xmpp.client.connection;
+package com.lmiky.jdp.xmpp.client.manager;
 
 import java.io.IOException;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
-import org.jivesoftware.smack.SmackException.NotConnectedException;
-import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.xmpp.client.listener.ConnectionListener;
+import com.lmiky.jdp.xmpp.smack.tcp.XMPPTCPKeepAliveConnection;
 
 /**
- * 连接工具
+ * 连接
  * @author lmiky
  * @date 2015年3月13日 下午3:10:41
  */
@@ -24,9 +24,9 @@ public class ConnectionManager {
 	public static final String HOST = PropertiesUtils.getStringContextValue("xmpp.host");							//域名
 	public static final int PORT = PropertiesUtils.getIntContextValue("xmpp.port");										//端口
 	
-	private static XMPPConnection CONN = null;
+	protected static XMPPConnection CONN = null;
 	
-	private static final Object LOCK_OBJ = new Object();	//加锁
+	protected static final Object LOCK_OBJ = new Object();	//加锁
 	
 	/**
 	 * 初始化
@@ -43,8 +43,10 @@ public class ConnectionManager {
 		config.setSendPresence(false);//是否告诉服务器自己的状态:：如果需要处理离线消息，则不能告诉
 		config.setSecurityMode(SecurityMode.disabled);	//否则会报DNS错误
         config.setDebuggerEnabled(false);	//是否启用调试
+//        config.setReconnectionAllowed(true);
         Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.manual); //手工处理所有好友申请请求
-		CONN = new XMPPTCPConnection(config);
+		CONN = new XMPPTCPKeepAliveConnection(config);
+		CONN.addConnectionListener(new ConnectionListener());
 		CONN.connect();
 	}
 
@@ -62,76 +64,13 @@ public class ConnectionManager {
 			if(CONN == null) {
 				initConnection();
 			}
-			return CONN;
-		}
-	}
-	
-	/**
-	 * 获取连接并登陆
-	 * @author lmiky
-	 * @date 2015年3月13日 下午4:35:21
-	 * @param userName
-	 * @param password
-	 * @return
-	 * @throws SmackException
-	 * @throws IOException
-	 * @throws XMPPException
-	 */
-	public static XMPPConnection getConnection(String userName, String password) throws SmackException, IOException, XMPPException {
-		synchronized(LOCK_OBJ) {
-			if(CONN == null) {	//未创建连接
-				login(userName, password);
-				return CONN;
-			}
-			if(!CONN.isAuthenticated()) {	//未登陆
-				login(userName, password);
-			} else {
-				String currentLoginedUser = CONN.getUser().split("@")[0];	//当前连接登陆用户
-				if(!currentLoginedUser.equals(userName)) {		//已有用户登陆且不是需要登陆的用户用户
-					disconnect();	//断开连接
-					login(userName, password);
-				}
+			if(!CONN.isConnected()) {
+				CONN.connect();
 			}
 			return CONN;
 		}
 	}
-	
-	/**
-	 * 登陆
-	 * @author lmiky
-	 * @date 2015年3月13日 下午3:54:21
-	 * @param userName
-	 * @param password
-	 * @throws SmackException
-	 * @throws IOException
-	 * @throws XMPPException
-	 */
-	public static void login(String userName, String password) throws SmackException, IOException, XMPPException {
-		getConnection().login(userName, password);
-	}
-	
-	/**
-	 * 上线
-	 * @author lmiky
-	 * @date 2015年3月13日 下午3:57:29
-	 * @throws NotConnectedException
-	 */
-	public static void online() throws NotConnectedException {
-		Presence presence = new Presence(Presence.Type.available);  
-		CONN.sendPacket(presence);
-	}
-	
-	/**
-	 * 下线
-	 * @author lmiky
-	 * @date 2015年3月13日 下午3:57:48
-	 * @throws NotConnectedException
-	 */
-	public static void offline() throws NotConnectedException {
-		Presence presence = new Presence(Presence.Type.unavailable);  
-		CONN.sendPacket(presence);
-	}
-	
+
 	/**
 	 * 断开连接
 	 * @author lmiky

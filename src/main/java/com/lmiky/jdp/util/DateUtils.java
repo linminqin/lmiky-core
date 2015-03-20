@@ -54,14 +54,25 @@ public class DateUtils {
 	}
 	
 	/**
-	 * 格式化时间，用默认的时间格式
+	 * 格式化日期时间，用默认的日期时间格式
 	 * @author
 	 * @date 2013-5-16
 	 * @param date
 	 * @return
 	 */
-	public static String formatTime(Date date) {
+	public static String formatDateTime(Date date) {
 		return format(date, Constants.CONTEXT_KEY_FORMAT_DATETIME_VALUE);
+	}
+	
+	/**
+	 * 格式化时间，用默认的时间格式
+	 * @author lmiky
+	 * @date 2015年3月16日 上午11:24:25
+	 * @param date
+	 * @return
+	 */
+	public static String formatTime(Date date) {
+		return format(date, Constants.CONTEXT_KEY_FORMAT_TIME_VALUE);
 	}
 	
 	/**

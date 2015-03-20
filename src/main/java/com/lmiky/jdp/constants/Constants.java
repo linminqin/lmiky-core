@@ -8,26 +8,32 @@ import com.lmiky.jdp.util.PropertiesUtils;
  * @date 2013-4-16
  */
 public class Constants {
-	// ****************************************properties文件key****************************************//
+	
+	
+	// ****************************************properties文件****************************************//
 	// 配置文件
+	public static final String PROPERTIES_KEY_CORE_FILE = "config/core";	//核心配置
 	public static final String PROPERTIES_KEY_CONTEXT_FILE = "config/context";
 	public static final String PROPERTIES_KEY_OPERATENAME_FILE = "config/operateName";
 	public static final String PROPERTIES_KEY_CODE_MSG_FILE = "config/codeMsg";
+	
+	//系统
+	public static final String SYSTEM_ENCODE =  PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.encode"); 	//系统编码
+	public static final int SYSTEM_EXCEPTION_STACKLOGNUM = PropertiesUtils.getIntValue(PROPERTIES_KEY_CORE_FILE, "system.exceptionStackLogNum");	//错误日志行数
 
 	// 格式
 	public static final String CONTEXT_KEY_FORMAT_DATE = "format.date"; // 日期
 	public static final String CONTEXT_KEY_FORMAT_DATETIME = "format.dateTime"; // 日期时间
 	public static final String CONTEXT_KEY_FORMAT_TIME = "format.time"; // 时间
 	//日期格式值
-	public static final String CONTEXT_KEY_FORMAT_DATE_VALUE = PropertiesUtils.getStringContextValue(CONTEXT_KEY_FORMAT_DATE); // 日期
-	public static final String CONTEXT_KEY_FORMAT_DATETIME_VALUE = PropertiesUtils.getStringContextValue(CONTEXT_KEY_FORMAT_DATETIME); // 日期时间
-	public static final String CONTEXT_KEY_FORMAT_TIME_VALUE = PropertiesUtils.getStringContextValue(CONTEXT_KEY_FORMAT_TIME);  // 时间
+	public static final String CONTEXT_KEY_FORMAT_DATE_VALUE = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_DATE); // 日期
+	public static final String CONTEXT_KEY_FORMAT_DATETIME_VALUE = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_DATETIME); // 日期时间
+	public static final String CONTEXT_KEY_FORMAT_TIME_VALUE = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_TIME);  // 时间
 
-	// 分页
-	public static final String CONTEXT_KEY_PAGE_PAGESIZE = "page.pageSize";
-	
 	//文件上传路径
 	//临时目录
-	public static final String SYSTEM_FILE_UPLOAD_PATH_TEMP = "system.file.upload.path.temp";
-	public static final String SYSTEM_FILE_PATH = "system.file.path";
+	public static final String SYSTEM_FILE_UPLOAD_PATH_TEMP = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.file.upload.path.temp");
+	public static final String SYSTEM_FILE_PATH = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.file.path");
+	
+	// ****************************************properties文件****************************************//
 }

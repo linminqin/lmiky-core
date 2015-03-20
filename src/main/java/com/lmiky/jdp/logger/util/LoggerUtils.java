@@ -21,11 +21,8 @@ import com.lmiky.jdp.util.PropertiesUtils;
 public class LoggerUtils {
 	private static final String CONFIGNAME_PREFIX_OPETYPE = "opeType_";
 	private static final String CONFIGNAME_PREFIX_POJONAME= "opePojo_";
-	private static int exceptionStackLogNum;
+	private static int exceptionStackLogNum = Constants.SYSTEM_EXCEPTION_STACKLOGNUM;
 	private static final Log log = LogFactory.getLog("com.lmiky");
-	static {
-		exceptionStackLogNum = PropertiesUtils.getIntContextValue("system.exceptionStackLogNum");
-	}
 
 	/**
 	 * @author lmiky

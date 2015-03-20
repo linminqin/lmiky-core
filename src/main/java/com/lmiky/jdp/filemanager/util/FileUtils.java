@@ -62,7 +62,7 @@ public class FileUtils {
 			}
 		}
 		if(StringUtils.isBlank(savePath)) {
-			savePath = PropertiesUtils.getStringContextValue(Constants.SYSTEM_FILE_PATH);
+			savePath = Constants.SYSTEM_FILE_PATH;
 		}
 		InputStream in = null;
 		OutputStream out = null;
