@@ -16,7 +16,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.lmiky.jdp.constants.Constants;
 import com.lmiky.jdp.filemanager.exception.FileUploadException;
-import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.util.BundleUtils;
 import com.lmiky.jdp.util.UUIDGenerator;
 
 /**
@@ -101,7 +101,7 @@ public class FileUtils {
 		String savePath = request.getParameter(PARAMNAME_FILEPATH);
 		//默认路径
         if(StringUtils.isBlank(savePath)) {
-        	savePath = PropertiesUtils.getStringContextValue(Constants.SYSTEM_FILE_PATH);
+        	savePath = BundleUtils.getStringContextValue(Constants.SYSTEM_FILE_PATH);
         }
 		return upload(modelMap, request, response, savePath);
 	}

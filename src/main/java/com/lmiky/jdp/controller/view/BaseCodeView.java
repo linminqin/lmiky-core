@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.lmiky.jdp.constants.Constants;
 import com.lmiky.jdp.logger.util.LoggerUtils;
-import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.util.BundleUtils;
 
 /**
  * 带结果码的视图
@@ -53,7 +53,7 @@ public class BaseCodeView extends BaseJsonView {
 		String msg = "";
 		try {
 			if (msgObj == null) { // 从配置文件读
-				msg = PropertiesUtils.getStringValue(Constants.PROPERTIES_KEY_CODE_MSG_FILE, code + "");
+				msg = BundleUtils.getStringValue(Constants.PROPERTIES_KEY_CODE_MSG_FILE, code + "");
 			} else {
 				msg = msgObj.toString();
 			}

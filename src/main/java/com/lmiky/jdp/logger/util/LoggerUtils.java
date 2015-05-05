@@ -11,7 +11,7 @@ import com.lmiky.jdp.constants.Constants;
 import com.lmiky.jdp.logger.pojo.Logger;
 import com.lmiky.jdp.service.BaseService;
 import com.lmiky.jdp.service.exception.ServiceException;
-import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.util.BundleUtils;
 
 /**
  * 日志工具
@@ -281,7 +281,7 @@ public class LoggerUtils {
 	 */
 	public static String getOpeName(String opeType) {
 		try {
-			return PropertiesUtils.getStringValue(Constants.PROPERTIES_KEY_OPERATENAME_FILE, CONFIGNAME_PREFIX_OPETYPE + opeType);
+			return BundleUtils.getStringValue(Constants.PROPERTIES_KEY_OPERATENAME_FILE, CONFIGNAME_PREFIX_OPETYPE + opeType);
 		} catch(Exception e) {
 			logException(e);
 			return "";
@@ -297,7 +297,7 @@ public class LoggerUtils {
 	 */
 	public static String getPojoName(String pojoClassName) {
 		try {
-			return PropertiesUtils.getStringValue(Constants.PROPERTIES_KEY_OPERATENAME_FILE, CONFIGNAME_PREFIX_POJONAME + pojoClassName);
+			return BundleUtils.getStringValue(Constants.PROPERTIES_KEY_OPERATENAME_FILE, CONFIGNAME_PREFIX_POJONAME + pojoClassName);
 		} catch(Exception e) {
 			logException(e);
 			return "";

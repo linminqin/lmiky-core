@@ -12,7 +12,7 @@ import com.lmiky.jdp.constants.Constants;
  * @author lmiky
  * @date 2013-4-16
  */ 
-public class PropertiesUtils {
+public class BundleUtils {
 	
 	/**
      * @author lmiky

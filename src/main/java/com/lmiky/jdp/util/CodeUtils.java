@@ -1,6 +1,7 @@
 package com.lmiky.jdp.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +39,10 @@ public class CodeUtils {
 		try {
 			BitMatrix bitMatrix = new MultiFormatWriter().encode(contents, BarcodeFormat.QR_CODE, outputImgWidth, outputImgHeight, hints);
 			//写出文件
-			MatrixToImageWriter.writeToPath(bitMatrix, "png", new File(outputImgPath).toPath());
+			//1.8版本写法
+			//MatrixToImageWriter.writeToPath(bitMatrix, "png", new File(outputImgPath).toPath());
+			//1.6写法，未经过测试
+			MatrixToImageWriter.writeToStream(bitMatrix, "png", new FileOutputStream(new File(outputImgPath)));
 			return true;
 		} catch (Exception e) {
 			LoggerUtils.logException(e);

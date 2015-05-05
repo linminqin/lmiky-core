@@ -25,7 +25,7 @@ public class Client {
 	private EventLoopGroup group;
 	private Channel ch;
 	
-	public Client(String host, int port, ChannelInitializer<? extends Channel> channelInitializer) throws IOException, InterruptedException {
+	public Client(final String host, final int port, ChannelInitializer<? extends Channel> channelInitializer) throws IOException, InterruptedException {
 		this.host = host;
 		this.port = port;
 		group = new NioEventLoopGroup();

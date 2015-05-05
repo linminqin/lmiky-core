@@ -30,7 +30,7 @@ import org.jivesoftware.smack.util.ArrayBlockingQueueWithShutdown;
 
 import com.lmiky.jdp.constants.Constants;
 import com.lmiky.jdp.logger.util.LoggerUtils;
-import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.util.BundleUtils;
 
 /**
  * smack 4.0.7 去掉了keepAlive，所以会出现无心跳而断开的问题，本包在4.0.7的基础上加入了 smack 3.2.1的keepAlive代码
@@ -50,7 +50,7 @@ class PacketWriter {
 
     private static final Logger LOGGER = Logger.getLogger(PacketWriter.class.getName());
     
-    private static final int keepAliveInterval = PropertiesUtils.getIntValue(Constants.PROPERTIES_KEY_CORE_FILE, "xmpp.keepAlive.interval");
+    private static final int keepAliveInterval = BundleUtils.getIntValue(Constants.PROPERTIES_KEY_CORE_FILE, "xmpp.keepAlive.interval");
 
     private final XMPPTCPKeepAliveConnection connection;
     private final ArrayBlockingQueueWithShutdown<Packet> queue = new ArrayBlockingQueueWithShutdown<Packet>(QUEUE_SIZE, true);

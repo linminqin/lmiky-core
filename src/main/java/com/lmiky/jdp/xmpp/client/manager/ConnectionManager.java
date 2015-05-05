@@ -10,7 +10,7 @@ import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
-import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.util.BundleUtils;
 import com.lmiky.jdp.xmpp.client.listener.ConnectionListener;
 import com.lmiky.jdp.xmpp.smack.tcp.XMPPTCPKeepAliveConnection;
 
@@ -20,9 +20,9 @@ import com.lmiky.jdp.xmpp.smack.tcp.XMPPTCPKeepAliveConnection;
  * @date 2015年3月13日 下午3:10:41
  */
 public class ConnectionManager {
-	public static final String SERVERNAME = PropertiesUtils.getStringContextValue("xmpp.servername");	//服务名
-	public static final String HOST = PropertiesUtils.getStringContextValue("xmpp.host");							//域名
-	public static final int PORT = PropertiesUtils.getIntContextValue("xmpp.port");										//端口
+	public static final String SERVERNAME = BundleUtils.getStringContextValue("xmpp.servername");	//服务名
+	public static final String HOST = BundleUtils.getStringContextValue("xmpp.host");							//域名
+	public static final int PORT = BundleUtils.getIntContextValue("xmpp.port");										//端口
 	
 	protected static XMPPConnection CONN = null;
 	

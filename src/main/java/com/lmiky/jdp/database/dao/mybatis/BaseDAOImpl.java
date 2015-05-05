@@ -25,7 +25,7 @@ import com.lmiky.jdp.database.model.PropertyFilter;
 import com.lmiky.jdp.database.model.Sort;
 import com.lmiky.jdp.database.pojo.BasePojo;
 import com.lmiky.jdp.tree.pojo.BaseTreePojo;
-import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.util.BundleUtils;
 
 /**
  * 基础dao
@@ -189,7 +189,7 @@ public class BaseDAOImpl implements BaseDAO {
 			return cacheValue;
 		}
 		try {
-			cacheValue = PropertiesUtils.getStringValue("config/mappers/config", cacheKey);
+			cacheValue = BundleUtils.getStringValue("config/mappers/config", cacheKey);
 		} catch(MissingResourceException e) {	//没有配置，则默认为通用
 			cacheValue = OPEARATE_CONFIG_COMMON;
 		}
@@ -502,7 +502,7 @@ public class BaseDAOImpl implements BaseDAO {
 	 */
 	public <T extends BasePojo> T find(Class<T> pojoClass, Map<String, Object> params) throws DatabaseException {
 		try {
-			List<PropertyFilter> propertyFilters = new ArrayList<>();
+			List<PropertyFilter> propertyFilters = new ArrayList<PropertyFilter>();
 			for (Map.Entry<String, Object> entry : params.entrySet()) {
 				String key = entry.getKey();
 				propertyFilters.add(new PropertyFilter(key, entry.getValue(), PropertyCompareType.EQ, pojoClass));
@@ -1009,7 +1009,7 @@ public class BaseDAOImpl implements BaseDAO {
 	public <T extends BasePojo> int count(Class<T> pojoClass, List<PropertyFilter> propertyFilters) throws DatabaseException {
 		try {
 			Map<String, Object> params = generateParameterMap(pojoClass, propertyFilters);
-			return sqlSessionTemplate.selectOne(getOperateNameSpace(pojoClass, SQLNAME_COUNT), params);
+			return (Integer)sqlSessionTemplate.selectOne(getOperateNameSpace(pojoClass, SQLNAME_COUNT), params);
 		} catch (Exception e) {
 			throw new DatabaseException(e.getMessage());
 		}
@@ -1052,7 +1052,7 @@ public class BaseDAOImpl implements BaseDAO {
 	@Override
 	public <T extends BasePojo> int count(Class<T> pojoClass, Map<String, Object> params) throws DatabaseException {
 		try {
-			List<PropertyFilter> propertyFilters = new ArrayList<>();
+			List<PropertyFilter> propertyFilters = new ArrayList<PropertyFilter>();
 			for (Map.Entry<String, Object> entry : params.entrySet()) {
 				String key = entry.getKey();
 				propertyFilters.add(new PropertyFilter(key, entry.getValue(), PropertyCompareType.EQ, pojoClass));
@@ -1113,7 +1113,7 @@ public class BaseDAOImpl implements BaseDAO {
 	@Override
 	public <T extends BasePojo> boolean exist(Class<T> pojoClass, Map<String, Object> params) throws DatabaseException {
 		try {
-			List<PropertyFilter> propertyFilters = new ArrayList<>();
+			List<PropertyFilter> propertyFilters = new ArrayList<PropertyFilter>();
 			for (Map.Entry<String, Object> entry : params.entrySet()) {
 				String key = entry.getKey();
 				propertyFilters.add(new PropertyFilter(key, entry.getValue(), PropertyCompareType.EQ, pojoClass));

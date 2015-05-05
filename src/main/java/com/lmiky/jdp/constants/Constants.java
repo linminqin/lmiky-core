@@ -1,6 +1,6 @@
 package com.lmiky.jdp.constants;
 
-import com.lmiky.jdp.util.PropertiesUtils;
+import com.lmiky.jdp.util.BundleUtils;
 
 /**
  * 常量
@@ -18,22 +18,22 @@ public class Constants {
 	public static final String PROPERTIES_KEY_CODE_MSG_FILE = "config/codeMsg";
 	
 	//系统
-	public static final String SYSTEM_ENCODE =  PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.encode"); 	//系统编码
-	public static final int SYSTEM_EXCEPTION_STACKLOGNUM = PropertiesUtils.getIntValue(PROPERTIES_KEY_CORE_FILE, "system.exceptionStackLogNum");	//错误日志行数
+	public static final String SYSTEM_ENCODE =  BundleUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.encode"); 	//系统编码
+	public static final int SYSTEM_EXCEPTION_STACKLOGNUM = BundleUtils.getIntValue(PROPERTIES_KEY_CORE_FILE, "system.exceptionStackLogNum");	//错误日志行数
 
 	// 格式
 	public static final String CONTEXT_KEY_FORMAT_DATE = "format.date"; // 日期
 	public static final String CONTEXT_KEY_FORMAT_DATETIME = "format.dateTime"; // 日期时间
 	public static final String CONTEXT_KEY_FORMAT_TIME = "format.time"; // 时间
 	//日期格式值
-	public static final String CONTEXT_KEY_FORMAT_DATE_VALUE = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_DATE); // 日期
-	public static final String CONTEXT_KEY_FORMAT_DATETIME_VALUE = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_DATETIME); // 日期时间
-	public static final String CONTEXT_KEY_FORMAT_TIME_VALUE = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_TIME);  // 时间
+	public static final String CONTEXT_KEY_FORMAT_DATE_VALUE = BundleUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_DATE); // 日期
+	public static final String CONTEXT_KEY_FORMAT_DATETIME_VALUE = BundleUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_DATETIME); // 日期时间
+	public static final String CONTEXT_KEY_FORMAT_TIME_VALUE = BundleUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, CONTEXT_KEY_FORMAT_TIME);  // 时间
 
 	//文件上传路径
 	//临时目录
-	public static final String SYSTEM_FILE_UPLOAD_PATH_TEMP = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.file.upload.path.temp");
-	public static final String SYSTEM_FILE_PATH = PropertiesUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.file.path");
+	public static final String SYSTEM_FILE_UPLOAD_PATH_TEMP = BundleUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.file.upload.path.temp");
+	public static final String SYSTEM_FILE_PATH = BundleUtils.getStringValue(PROPERTIES_KEY_CORE_FILE, "system.file.path");
 	
 	// ****************************************properties文件****************************************//
 }

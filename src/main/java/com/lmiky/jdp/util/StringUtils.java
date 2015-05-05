@@ -216,7 +216,7 @@ public class StringUtils {
 	
 	public static void main(String[] args) throws ScriptException {
 		String expressStr = "(20+playerGrade)*500*(currentTimes*5+100)/100";
-		Map<String, Object> params = new HashMap<>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("playerGrade", 40);
 		params.put("currentTimes", 1);
 		Object value = express(expressStr, params);
