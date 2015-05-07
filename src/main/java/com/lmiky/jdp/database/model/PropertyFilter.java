@@ -31,6 +31,31 @@ public class PropertyFilter implements Serializable, Cloneable {
 	/**
 	 * @param propertyName
 	 * @param propertyValue
+	 */
+	public PropertyFilter(String propertyName, Object propertyValue) {
+		this.propertyName = propertyName;
+		this.propertyValue = propertyValue;
+		this.compareType = PropertyCompareType.EQ;
+		isCollectionField = false;
+		this.compareClass = null;
+	}
+	
+	/**
+	 * @param propertyName
+	 * @param propertyValue
+	 * @param compareType
+	 */
+	public PropertyFilter(String propertyName, Object propertyValue, PropertyCompareType compareType) {
+		this.propertyName = propertyName;
+		this.propertyValue = propertyValue;
+		this.compareType = compareType;
+		isCollectionField = false;
+		this.compareClass = null;
+	}
+	
+	/**
+	 * @param propertyName
+	 * @param propertyValue
 	 * @param compareClass
 	 */
 	public PropertyFilter(String propertyName, Object propertyValue, Class<?> compareClass) {

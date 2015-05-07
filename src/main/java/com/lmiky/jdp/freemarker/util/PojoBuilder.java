@@ -1,4 +1,4 @@
-package com.lmiky.jdp.freemarker.utils;
+package com.lmiky.jdp.freemarker.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,12 +31,12 @@ import freemarker.template.Template;
 public class PojoBuilder extends BaseBuilder {
 	//模板文件名
 	public static final String TEMPLATE_FILE_NAME = "pojo.ftl";
-	private static String dbHost = "110.76.45.92";
+	private static String dbHost = "localhost";
 	private static int dbPort = 3306;
-	private static String dbName = "lmiky";
+	private static String dbName = "gameopedb";
 	private static String dbUserName = "root";
-	private static String dbPassword = "xyf123456";
-	private static String tableName = "t_logger";
+	private static String dbPassword = "root";
+	private static String tableName;
 	
 	/**
 	 * 构造
@@ -45,7 +45,8 @@ public class PojoBuilder extends BaseBuilder {
 	 * @param clazz
 	 * @return
 	 */
-	public static boolean builder(String className, String pojoDesc) {
+	public static boolean builder(String className, String pojoDesc, String tableName) {
+		PojoBuilder.tableName = tableName;
 		try {
 			Configuration configuration = new Configuration();
 			configuration.setDirectoryForTemplateLoading(new File(TEMPLATE_FILE_PATH));
@@ -113,7 +114,7 @@ public class PojoBuilder extends BaseBuilder {
 					fieldType = "Integer";
 				} else if(fieldType.startsWith("varchar")) {
 					fieldType = "String";
-				} else if(fieldType.startsWith("datetime")) {
+				} else if(fieldType.startsWith("date") || fieldType.startsWith("time")) {
 					fieldType = "Date";
 				} else if(fieldType.startsWith("char")) {
 					fieldType = "String";
@@ -142,6 +143,6 @@ public class PojoBuilder extends BaseBuilder {
 	}
 	
 	public static void main(String[] args) {
-		PojoBuilder.builder("com.lmiky.jdp.logger.pojo.Logger", "日志");
+		PojoBuilder.builder("com.markany.gameboss.gamechannel.pojo.GameChannel", "游戏渠道推荐", "t_game_channel");
 	}
 }

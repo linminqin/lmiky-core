@@ -319,6 +319,9 @@ public class BaseDAOImpl implements BaseDAO {
 		} else {
 			List<PropertyFilter> dbFilters = new ArrayList<PropertyFilter>();
 			for(PropertyFilter filter : propertyFilters) {
+				if(filter.getCompareClass() == null) {	//默认为当初操作的对象
+					filter.setCompareClass(pojoClass);
+				}
 				dbFilters.add((PropertyFilter)filter.clone());
 			}
 			params.put(PARAM_NAME_FILTERS, dbFilters);
@@ -332,7 +335,7 @@ public class BaseDAOImpl implements BaseDAO {
 				if(!pojoClassName.equals(filterClassName)) {	//是否是其他的表
 					hasJoin = true;
 					joinTableAlias.add(filterClass.getSimpleName());	//添加到所级联的表列表中
-				} else {
+				} else {	//自身级联
 					rebuildFilter(filter);
 					String filterPropertyName = filter.getPropertyName();
 					int splitIndex = filterPropertyName.indexOf(".");

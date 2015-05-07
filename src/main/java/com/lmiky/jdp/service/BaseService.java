@@ -438,6 +438,18 @@ public interface BaseService {
 	/**
 	 * 计算数量
 	 * @author lmiky
+	 * @date 2015年5月7日 下午1:34:49
+	 * @param pojoClass
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 * @throws ServiceException
+	 */
+	public <T extends BasePojo> int count(Class<T> pojoClass, String propertyName, Object propertyValue) throws ServiceException;
+	
+	/**
+	 * 计算数量
+	 * @author lmiky
 	 * @date 2013-4-16
 	 * @param pojoClass
 	 * @param propertyFilters	过滤条件
@@ -500,4 +512,16 @@ public interface BaseService {
 	 * @throws ServiceException
 	 */
 	public <T extends BasePojo> boolean exist(Class<T> pojoClass, Map<String, Object> params) throws ServiceException;
+	
+	/**
+	 * 判断是否存在
+	 * @author lmiky
+	 * @date 2015年5月7日 下午1:35:04
+	 * @param pojoClass
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 * @throws ServiceException
+	 */
+	public <T extends BasePojo> boolean exist(Class<T> pojoClass, String propertyName, Object propertyValue) throws ServiceException;
 }

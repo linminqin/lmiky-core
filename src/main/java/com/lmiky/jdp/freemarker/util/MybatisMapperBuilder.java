@@ -1,4 +1,4 @@
-package com.lmiky.jdp.freemarker.utils;
+package com.lmiky.jdp.freemarker.util;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -505,6 +505,18 @@ public class BaseServiceImpl implements BaseService {
 			throw new ServiceException(e.getMessage());
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.lmiky.jdp.service.BaseService#count(java.lang.Class, java.lang.String, java.lang.Object)
+	 */
+	@Transactional(readOnly=true)
+	public <T extends BasePojo> int count(Class<T> pojoClass, String propertyName, Object propertyValue) throws ServiceException {
+		try {
+			return getDAO().count(pojoClass, propertyName, propertyValue);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -574,6 +586,18 @@ public class BaseServiceImpl implements BaseService {
 	public <T extends BasePojo> boolean exist(Class<T> pojoClass, Map<String, Object> params) throws ServiceException {
 		try {
 			return getDAO().exist(pojoClass, params);
+		} catch (DatabaseException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.lmiky.jdp.service.BaseService#exist(java.lang.Class, java.lang.String, java.lang.Object)
+	 */
+	@Transactional(readOnly=true)
+	public <T extends BasePojo> boolean exist(Class<T> pojoClass, String propertyName, Object propertyValue) throws ServiceException {
+		try {
+			return getDAO().exist(pojoClass, propertyName, propertyValue);
 		} catch (DatabaseException e) {
 			throw new ServiceException(e.getMessage());
 		}
