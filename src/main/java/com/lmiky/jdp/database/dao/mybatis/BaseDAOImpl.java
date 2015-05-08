@@ -311,24 +311,40 @@ public class BaseDAOImpl implements BaseDAO {
 	 * @throws Exception 
 	 */
 	protected <T extends BasePojo> Map<String, Object> generateParameterMap(Class<T> pojoClass,  List<PropertyFilter> propertyFilters) throws Exception {
+		return generateParameterMap(pojoClass, propertyFilters, null);
+	}
+	
+	/**
+	 * 生成参数
+	 * @author lmiky
+	 * @date 2014年9月17日 下午2:24:46
+	 * @param pojoClass
+	 * @param propertyFilters
+	 * @return
+	 * @throws Exception 
+	 */
+	protected <T extends BasePojo> Map<String, Object> generateParameterMap(Class<T> pojoClass,  List<PropertyFilter> propertyFilters, List<Sort> sorts) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put(PARAM_NAME_TABLENAME, getPojoTabelName(pojoClass));
 		params.put(PARAM_NAME_TABLEALIAS, pojoClass.getSimpleName());	
-		if(propertyFilters == null || propertyFilters.isEmpty()) {
+		if((propertyFilters == null || propertyFilters.isEmpty()) && (sorts == null || sorts.isEmpty())) {
 			params.put(PARAM_NAME_HAS_JOIN, false);
 		} else {
 			List<PropertyFilter> dbFilters = new ArrayList<PropertyFilter>();
-			for(PropertyFilter filter : propertyFilters) {
-				if(filter.getCompareClass() == null) {	//默认为当初操作的对象
-					filter.setCompareClass(pojoClass);
+			if(propertyFilters != null) {
+				for(PropertyFilter filter : propertyFilters) {
+					if(filter.getCompareClass() == null) {	//默认为当初操作的对象
+						filter.setCompareClass(pojoClass);
+					}
+					dbFilters.add((PropertyFilter)filter.clone());	//因为可能需要重新设置条件，为了不改掉页面传递的数据，所以使用了拷贝
 				}
-				dbFilters.add((PropertyFilter)filter.clone());
 			}
 			params.put(PARAM_NAME_FILTERS, dbFilters);
 			boolean hasJoin = false;	//是否有级联别的表
 			List<String> joinTableAlias = new ArrayList<String>();	
 			List<String> joinPojoAlias = new ArrayList<String>();	
 			String pojoClassName = pojoClass.getName();
+			//条件列表
 			for(PropertyFilter filter : dbFilters) {
 				Class<?> filterClass = filter.getCompareClass();
 				String filterClassName = (filterClass == null) ? "" : filterClass.getName();
@@ -345,6 +361,19 @@ public class BaseDAOImpl implements BaseDAO {
 							joinPojoAlias.add(pojoName);
 						}
 						hasJoin = true;
+					}
+				}
+			}
+			//排序列表
+			if(sorts != null) {
+				for(Sort sort : sorts) {
+					Class<?> sortClass = sort.getSortClass();
+					String sortClassName = (sortClass == null) ? "" : sortClass.getName();
+					if(!pojoClassName.equals(sortClassName)) {	//是否是其他的表
+						hasJoin = true;
+						joinTableAlias.add(sortClass.getSimpleName());	//添加到所级联的表列表中
+					} else {	//自身级联
+						//TODO 暂时没时间
 					}
 				}
 			}
@@ -956,7 +985,7 @@ public class BaseDAOImpl implements BaseDAO {
 	@Override
 	public <T extends BasePojo> List<T> list(Class<T> pojoClass, List<PropertyFilter> propertyFilters, List<Sort> sorts, int pageFirst, int pageSize) throws DatabaseException {
 		try {
-			Map<String, Object> params = generateParameterMap(pojoClass, propertyFilters);
+			Map<String, Object> params = generateParameterMap(pojoClass, propertyFilters, sorts);
 			setSortParameter(params, sorts);
 			setPageParameter(params, pageFirst < 0 ? 0 : pageFirst, pageSize < 1 ? 1 : pageSize);
 			return sqlSessionTemplate.selectList(pojoClass.getName() + "." + SQLNAME_LIST, params);

@@ -175,6 +175,14 @@
 		</if>
     </sql>
     
+    <sql id="simpleSortCondition">
+    	<if test="_parameter.containsKey('sorts') and sorts != null and sorts.size > 0">
+	        <foreach collection="sorts" item="sort" separator=",">
+					${sort.classAlias}.${sort.propertyName} ${sort.sortType}
+			</foreach>
+		</if>
+    </sql>
+    
     <!-- 分页 -->
     <sql id="pageCondition">
     	<trim prefix="limit" prefixOverrides=",">  
