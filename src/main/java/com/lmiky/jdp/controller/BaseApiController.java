@@ -1,6 +1,5 @@
-package com.lmiky.jdp.controller.api;
+package com.lmiky.jdp.controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,15 +9,13 @@ import com.lmiky.jdp.controller.view.BaseCode;
 import com.lmiky.jdp.controller.view.BaseCodeView;
 import com.lmiky.jdp.exception.BaseCodeException;
 import com.lmiky.jdp.logger.util.LoggerUtils;
-import com.lmiky.jdp.service.BaseService;
 
 /**
  * API控制器
  * @author lmiky
  * @date 2014年11月3日 下午2:20:50
  */
-public abstract class BaseApiController {
-	protected BaseService baseService;
+public abstract class BaseApiController extends BaseController {
 	
 	/**
 	 * 异常处理
@@ -41,18 +38,4 @@ public abstract class BaseApiController {
 		}
 	}
 	
-	/**
-	 * @return the baseService
-	 */
-	public BaseService getBaseService() {
-		return baseService;
-	}
-
-	/**
-	 * @param baseService the baseService to set
-	 */
-	@Resource(name="baseService")
-	public void setBaseService(BaseService baseService) {
-		this.baseService = baseService;
-	}
 }

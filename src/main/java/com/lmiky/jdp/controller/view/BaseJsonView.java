@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.AbstractView;
 
 import com.lmiky.jdp.json.util.JsonUtils;
 import com.lmiky.jdp.util.ResponseUtils;
+import com.lmiky.jdp.util.StringUtils;
 
 /**
  * 基本信息视图
@@ -45,5 +46,16 @@ public class BaseJsonView extends AbstractView {
 	protected void fill(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response, Map<String, Object> resultMap)
 			throws Exception {
 
+	}
+	
+	/**
+	 * 获取试图名称
+	 * @author lmiky
+	 * @date 2015年5月11日 下午4:06:18
+	 * @param viewClass
+	 * @return
+	 */
+	public static String getViewName(Class<? extends BaseJsonView> viewClass) {
+		return StringUtils.firstLetterLowerCase(viewClass.getSimpleName());
 	}
 }

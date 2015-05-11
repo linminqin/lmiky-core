@@ -143,6 +143,6 @@ public class PojoBuilder extends BaseBuilder {
 	}
 	
 	public static void main(String[] args) {
-		PojoBuilder.builder("com.markany.gameboss.gamechannel.pojo.GameChannel", "游戏渠道推荐", "t_game_channel");
+		PojoBuilder.builder("com.markany.gameboss.player.pojo.PlayerActivateList", "玩家激活清单", "t_player_activate_list");
 	}
 }
