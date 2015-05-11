@@ -67,6 +67,7 @@ public class IPUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> sinaLocation(String ip) throws Exception {
+		ip = "113.102.134.2";
 		Map<String, String> ret = new HashMap<String, String>();
 		// 请求
 		String json = HttpUtils.get(API_URL_SINA + "&ip=" + ip);
