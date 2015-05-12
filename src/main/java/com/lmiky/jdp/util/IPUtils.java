@@ -4,7 +4,11 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lmiky.jdp.cache.CacheFactory;
+import com.lmiky.jdp.cache.model.ObjectCache;
+import com.lmiky.jdp.cache.model.SimpleCacheData;
 import com.lmiky.jdp.json.util.JsonUtils;
+import com.lmiky.jdp.logger.util.LoggerUtils;
 
 /**
  * IP地址工具类
@@ -19,9 +23,36 @@ public class IPUtils {
 	public static final String PARAMNAME_COUNTRY = "country";
 	public static final String PARAMNAME_PROVINCE = "province";
 	public static final String PARAMNAME_CITY = "city";
+	
+	//缓存
+	private static final CacheFactory cacheFactory = (CacheFactory) Environment.getBean("cacheFactory");
+	private static final String CACHE_HEAD_IPLOCATION = "ipLocation.";
+	private static final ObjectCache ipLocationCache = cacheFactory.getCache("ipLocationCache");
 
+	/**
+	 * 获取定位
+	 * @author lmiky
+	 * @date 2015年5月12日 下午5:05:47
+	 * @param ip
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
 	public static Map<String, String> location(String ip) throws Exception {
-		return sinaLocation(ip);
+		Map<String, String> locationMap = null;
+		// 读取缓存
+		SimpleCacheData<Map<String, String>> cache = (SimpleCacheData<Map<String, String>>) ipLocationCache.get(CACHE_HEAD_IPLOCATION + ip);
+		if (cache != null) {
+			return cache.getValue();
+		}
+		locationMap = sinaLocation(ip);
+		// 设置缓存
+		try {
+			ipLocationCache.put(CACHE_HEAD_IPLOCATION + ip, new SimpleCacheData<Map<String, String>>(locationMap));
+		} catch (Exception e) {
+			LoggerUtils.logException(e);
+		}
+		return locationMap;
 	}
 
 	/**
@@ -67,7 +98,7 @@ public class IPUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> sinaLocation(String ip) throws Exception {
-		ip = "113.102.134.2";
+//		ip = "113.102.134.2";
 		Map<String, String> ret = new HashMap<String, String>();
 		// 请求
 		String json = HttpUtils.get(API_URL_SINA + "&ip=" + ip);
@@ -85,7 +116,7 @@ public class IPUtils {
 		String city = map.get("city").toString();
 		city = URLDecoder.decode(city, RESULT_CHARSET);
 		ret.put(PARAMNAME_CITY, buildCityName(city));
-		
+
 		return ret;
 	}
 
@@ -118,8 +149,8 @@ public class IPUtils {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String[] ips = {"218.5.76.173", "58.22.96.121", "218.86.126.226", "61.131.4.164", "121.34.145.197"};
-		for(String ip : ips) {
+		String[] ips = { "218.5.76.173", "58.22.96.121", "218.86.126.226", "61.131.4.164", "121.34.145.197" };
+		for (String ip : ips) {
 			Map<String, String> map = IPUtils.location(ip);
 			System.out.print(map.get(PARAMNAME_COUNTRY) + " ");
 			System.out.print(map.get(PARAMNAME_PROVINCE) + " ");
