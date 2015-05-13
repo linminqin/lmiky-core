@@ -27,12 +27,27 @@
 		<if test="null != condition">  
 			<where>
 				<foreach collection="condition.keys" item="k" separator="and"> 
-		    		<if test="null != condition[k]">  
-	                	    ${k} = #{condition[${k}]}  
-	        		</if>
+					<choose>
+						<when test="null != condition[k]">
+							${k} = #{condition[${k}]}  
+						</when>
+						<otherwise>
+							${k} is null
+						</otherwise>
+					</choose>
 				</foreach> 
 			</where>
 		</if>
+    </update>
+    
+    <update id="updateByFilters">
+   		update ${tableName} set
+   		<foreach collection="updateValue.keys" item="k" separator=","> 
+		   	${k} = #{updateValue[${k}]}
+		</foreach> 
+		<trim prefix="where">
+			<include refid="common.propertiesCondition" />
+		</trim>
     </update>
      
     <!-- 删除 -->

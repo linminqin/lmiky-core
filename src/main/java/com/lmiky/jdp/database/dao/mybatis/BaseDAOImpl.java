@@ -99,6 +99,10 @@ public class BaseDAOImpl implements BaseDAO {
 	 * sql方法名：根据参数修改修改
 	 */
 	protected static final String SQLNAME_UPDATE_BY_PARAMS = "updateByParams";
+	/**
+	 * sql方法名：根据条件修改修改
+	 */
+	protected static final String SQLNAME_UPDATE_BY_FILTERS = "updateByFilters";
 	
 	/**
 	 * sql方法名：删除
@@ -707,14 +711,10 @@ public class BaseDAOImpl implements BaseDAO {
 	 */
 	public <T extends BasePojo> boolean update(Class<T> pojoClass, List<PropertyFilter> propertyFilters, Map<String, Object> updateValue) throws DatabaseException {
 		try {
-			Map<String, Object> condition = new HashMap<String, Object>();
-			if(propertyFilters != null && !propertyFilters.isEmpty()) {
-				for(PropertyFilter propertyFilter: propertyFilters) {
-					rebuildFilter(propertyFilter);
-					condition.put(propertyFilter.getPropertyName(), propertyFilter.getPropertyValue());
-				}
-			}
-			return update(pojoClass, condition, updateValue);
+			Map<String, Object> params = generateParameterMap(pojoClass);
+			params.put(PARAM_NAME_FILTERS, propertyFilters);
+			params.put("updateValue", updateValue);
+			return sqlSessionTemplate.update(getOperateNameSpace(pojoClass, SQLNAME_UPDATE_BY_FILTERS), params) > 0;
 		} catch (Exception e) {
 			throw new DatabaseException(e.getMessage());
 		}

@@ -4,6 +4,10 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.lmiky.jdp.cache.CacheFactory;
 import com.lmiky.jdp.cache.model.ObjectCache;
 import com.lmiky.jdp.cache.model.SimpleCacheData;
@@ -23,11 +27,38 @@ public class IPUtils {
 	public static final String PARAMNAME_COUNTRY = "country";
 	public static final String PARAMNAME_PROVINCE = "province";
 	public static final String PARAMNAME_CITY = "city";
-	
-	//缓存
+
+	// 缓存
 	private static final CacheFactory cacheFactory = (CacheFactory) Environment.getBean("cacheFactory");
 	private static final String CACHE_HEAD_IPLOCATION = "ipLocation.";
 	private static final ObjectCache ipLocationCache = cacheFactory.getCache("ipLocationCache");
+
+	/**
+	 * 获取真实IP
+	 * @author lmiky
+	 * @date 2015年5月13日 下午4:15:49
+	 * @param request
+	 * @return
+	 */
+	public static String getRealIP(HttpServletRequest request) {
+		String ip = request.getRemoteAddr();
+		if("127.0.0.1".equalsIgnoreCase(ip) || "localhost".equalsIgnoreCase(ip) || ip.startsWith("192.168.")) {
+			ip = request.getHeader("X-Real-IP");
+		}
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-Forwarded-For");
+		}
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (StringUtils.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+	}
 
 	/**
 	 * 获取定位
@@ -98,7 +129,7 @@ public class IPUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> sinaLocation(String ip) throws Exception {
-//		ip = "113.102.134.2";
+		// ip = "113.102.134.2";
 		Map<String, String> ret = new HashMap<String, String>();
 		// 请求
 		String json = HttpUtils.get(API_URL_SINA + "&ip=" + ip);
