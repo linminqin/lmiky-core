@@ -56,6 +56,7 @@
 			,name
 			,parentId
 			,leaf
+			,sort
 		)
 		values
 		(
@@ -63,6 +64,7 @@
 			,#{name}
 			,#{parent.id}
 			,#{leaf}
+			,#{sort}
 		)
 	</insert>
 	

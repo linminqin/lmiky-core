@@ -12,6 +12,7 @@ import com.lmiky.jdp.logger.pojo.Logger;
 import com.lmiky.jdp.service.BaseService;
 import com.lmiky.jdp.service.exception.ServiceException;
 import com.lmiky.jdp.util.BundleUtils;
+import com.lmiky.jdp.util.IPUtils;
 
 /**
  * 日志工具
@@ -268,7 +269,7 @@ public class LoggerUtils {
 		logger.setOpeClassName(opeClassName);
 		logger.setLogDesc(logDesc);
 		logger.setLogTime(new Date());
-		logger.setIp(request.getRemoteAddr());
+		logger.setIp(IPUtils.getRealIP(request));
 		service.add(logger);
 	}
 	
