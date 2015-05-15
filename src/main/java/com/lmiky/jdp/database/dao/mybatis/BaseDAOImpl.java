@@ -8,14 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 
-import javax.annotation.Resource;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import net.sf.cglib.proxy.Enhancer;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.lmiky.jdp.database.dao.BaseDAO;
@@ -33,7 +31,7 @@ import com.lmiky.jdp.util.BundleUtils;
  * @date 2013-4-15
  */
 @Repository("baseDAO")
-public class BaseDAOImpl implements BaseDAO {
+public class BaseDAOImpl extends AbstractBaseDAOImpl implements BaseDAO {
 
 	// 参数字段
 	/**
@@ -123,8 +121,6 @@ public class BaseDAOImpl implements BaseDAO {
 	 * sql方法名：统计
 	 */
 	protected static final String SQLNAME_COUNT = "count";
-
-	protected SqlSessionTemplate sqlSessionTemplate;
 
 	/**
 	 * 对象对应的数据库表名
@@ -1154,21 +1150,6 @@ public class BaseDAOImpl implements BaseDAO {
 		} catch (Exception e) {
 			throw new DatabaseException(e.getMessage());
 		}
-	}
-
-	/**
-	 * @return the sqlSessionTemplate
-	 */
-	public SqlSessionTemplate getSqlSessionTemplate() {
-		return sqlSessionTemplate;
-	}
-
-	/**
-	 * @param sqlSessionTemplate the sqlSessionTemplate to set
-	 */
-	@Resource(name = "sqlSessionTemplate")
-	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
-		this.sqlSessionTemplate = sqlSessionTemplate;
 	}
 
 }
