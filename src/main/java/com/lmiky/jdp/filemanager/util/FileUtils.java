@@ -3,6 +3,8 @@ package com.lmiky.jdp.filemanager.util;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -119,5 +121,22 @@ public class FileUtils {
 	 */
 	public static String upload(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, String savePath) throws FileUploadException {
 		return upload(modelMap, request, response, PARAMNAME_FILE, savePath);
+	}
+	
+	/**
+	 * 文件名称编码
+	 * @author lmiky
+	 * @date 2015年5月21日 下午2:06:48
+	 * @param fileName
+	 * @param enc
+	 * @return
+	 */
+	public static String encodeFileName(String fileName, String enc) {
+		try {
+			return URLEncoder.encode(fileName.replaceAll("\\x23", "%23"), "utf-8").replaceAll("\\x2b", "%20");
+		}
+		catch (UnsupportedEncodingException e) {
+			return fileName;
+		}
 	}
 }
