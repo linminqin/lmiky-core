@@ -27,6 +27,15 @@ public class Sort implements Serializable {
 	/**
 	 * @param propertyName
 	 * @param sortType
+	 */
+	public Sort(String propertyName, String sortType) {
+		this.propertyName = propertyName;
+		this.sortType = sortType;
+	}
+	
+	/**
+	 * @param propertyName
+	 * @param sortType
 	 * @param sortClass
 	 */
 	public Sort(String propertyName, String sortType, Class<?> sortClass) {

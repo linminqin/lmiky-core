@@ -368,6 +368,10 @@ public class BaseDAOImpl extends AbstractBaseDAOImpl implements BaseDAO {
 			if(sorts != null) {
 				for(Sort sort : sorts) {
 					Class<?> sortClass = sort.getSortClass();
+					if(sortClass == null) {	//设置默认实体类
+						sortClass = pojoClass;
+						sort.setSortClass(sortClass);
+					}
 					String sortClassName = (sortClass == null) ? "" : sortClass.getName();
 					if(!pojoClassName.equals(sortClassName)) {	//是否是其他的表
 						hasJoin = true;
