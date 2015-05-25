@@ -327,6 +327,10 @@ public class BaseDAOImpl extends AbstractBaseDAOImpl implements BaseDAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put(PARAM_NAME_TABLENAME, getPojoTabelName(pojoClass));
 		params.put(PARAM_NAME_TABLEALIAS, pojoClass.getSimpleName());	
+		boolean hasJoin = false;	//是否有级联别的表
+		List<String> joinTableAlias = new ArrayList<String>();	
+		List<String> joinPojoAlias = new ArrayList<String>();	
+		String pojoClassName = pojoClass.getName();
 		if((propertyFilters == null || propertyFilters.isEmpty()) && (sorts == null || sorts.isEmpty())) {
 			params.put(PARAM_NAME_HAS_JOIN, false);
 		} else {
@@ -340,10 +344,6 @@ public class BaseDAOImpl extends AbstractBaseDAOImpl implements BaseDAO {
 				}
 			}
 			params.put(PARAM_NAME_FILTERS, dbFilters);
-			boolean hasJoin = false;	//是否有级联别的表
-			List<String> joinTableAlias = new ArrayList<String>();	
-			List<String> joinPojoAlias = new ArrayList<String>();	
-			String pojoClassName = pojoClass.getName();
 			//条件列表
 			for(PropertyFilter filter : dbFilters) {
 				Class<?> filterClass = filter.getCompareClass();
@@ -364,27 +364,27 @@ public class BaseDAOImpl extends AbstractBaseDAOImpl implements BaseDAO {
 					}
 				}
 			}
-			//排序列表
-			if(sorts != null) {
-				for(Sort sort : sorts) {
-					Class<?> sortClass = sort.getSortClass();
-					if(sortClass == null) {	//设置默认实体类
-						sortClass = pojoClass;
-						sort.setSortClass(sortClass);
-					}
-					String sortClassName = (sortClass == null) ? "" : sortClass.getName();
-					if(!pojoClassName.equals(sortClassName)) {	//是否是其他的表
-						hasJoin = true;
-						joinTableAlias.add(sortClass.getSimpleName());	//添加到所级联的表列表中
-					} else {	//自身级联
-						//TODO 暂时没时间
-					}
+		}
+		//排序列表
+		if(sorts != null) {
+			for(Sort sort : sorts) {
+				Class<?> sortClass = sort.getSortClass();
+				if(sortClass == null) {	//设置默认实体类
+					sortClass = pojoClass;
+					sort.setSortClass(sortClass);
+				}
+				String sortClassName = (sortClass == null) ? "" : sortClass.getName();
+				if(!pojoClassName.equals(sortClassName)) {	//是否是其他的表
+					hasJoin = true;
+					joinTableAlias.add(sortClass.getSimpleName());	//添加到所级联的表列表中
+				} else {	//自身级联
+					//TODO 暂时没时间
 				}
 			}
-			params.put(PARAM_NAME_HAS_JOIN, hasJoin);
-			params.put(PARAM_NAME_JOIN_TABLEALISA, joinTableAlias);
-			params.put(PARAM_NAME_JOIN_POJOALISA, joinPojoAlias);
 		}
+		params.put(PARAM_NAME_HAS_JOIN, hasJoin);
+		params.put(PARAM_NAME_JOIN_TABLEALISA, joinTableAlias);
+		params.put(PARAM_NAME_JOIN_POJOALISA, joinPojoAlias);
 		return params;
 	}
 
