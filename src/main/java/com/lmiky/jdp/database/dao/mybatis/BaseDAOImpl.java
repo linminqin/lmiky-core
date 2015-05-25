@@ -381,6 +381,7 @@ public class BaseDAOImpl extends AbstractBaseDAOImpl implements BaseDAO {
 					//TODO 暂时没时间
 				}
 			}
+			setSortParameter(params, sorts);
 		}
 		params.put(PARAM_NAME_HAS_JOIN, hasJoin);
 		params.put(PARAM_NAME_JOIN_TABLEALISA, joinTableAlias);
