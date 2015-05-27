@@ -159,7 +159,7 @@ public class IPUtils {
 	 * @return
 	 */
 	private static String buildProvinceName(String provinceName) {
-		if (!provinceName.endsWith("省")) {
+		if (!provinceName.endsWith("省") && !provinceName.endsWith("市") && !provinceName.endsWith("区")) {
 			provinceName += "省";
 		}
 		return provinceName;
@@ -173,7 +173,7 @@ public class IPUtils {
 	 * @return
 	 */
 	private static String buildCityName(String cityName) {
-		if (!cityName.endsWith("市")) {
+		if (!cityName.endsWith("市") && !cityName.endsWith("州") && !cityName.endsWith("区") && cityName.length() < 4) {
 			cityName += "市";
 		}
 		return cityName;
