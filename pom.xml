@@ -6,7 +6,7 @@
 	<groupId>com.lmiky</groupId>
 	<artifactId>lmiky-core</artifactId>
 	<version>0.2</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<org.springframework.version>3.2.9.RELEASE</org.springframework.version>
@@ -325,8 +325,8 @@
 			    <artifactId>maven-compiler-plugin</artifactId>
 			    <version>3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>utf-8</encoding>
 					<showWarnings>true</showWarnings>
 				</configuration>
