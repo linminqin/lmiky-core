@@ -28,8 +28,16 @@ public class Environment {
 		if(index != -1) {
 			webAppPath = path.substring(0, index);
 		}
-		webAppPath = path.replaceAll("%20", " ");
-		classPath = path.substring(0, path.toLowerCase().lastIndexOf(CLASSPATH_NAME + "/")).replaceAll("%20", " ");
+		webAppPath = webAppPath.replaceAll("%20", " ") + WEBINF_NAME + "/";
+		try {
+			index = path.toUpperCase().lastIndexOf(CLASSPATH_NAME + "/");
+			if(index != -1) {
+				classPath = path.substring(0, index);
+			}
+			classPath = classPath.replaceAll("%20", " ") + CLASSPATH_NAME + "/";
+		} catch(Exception e) {
+			classPath = webAppPath + CLASSPATH_NAME + "/";
+		}
 	}
 	
 	/**
@@ -39,7 +47,7 @@ public class Environment {
 	 * @return
 	 */
 	public static String getWebInfPath() {
-		return webAppPath + WEBINF_NAME + "/";
+		return webAppPath;
 	}
 
 	/**
@@ -49,7 +57,7 @@ public class Environment {
 	 * @return
 	 */
 	public static String getClassPath() {
-		return classPath + CLASSPATH_NAME + "/";
+		return classPath ;
 	}
 	
 	/**
