@@ -25,7 +25,7 @@ import com.lmiky.jdp.logger.util.LoggerUtils;
  * @date 2015年8月10日 下午10:04:51
  */
 public class Mail {
-    //内容编码
+    // 内容编码
     private static final String CONTENT_ENCODING = "UTF-8";
     private MimeMessage mimeMsg; // MIME邮件对象
     private Session session; // 邮件会话对象
@@ -59,6 +59,19 @@ public class Mail {
         }
         // 设置SMTP主机
         props.put("mail.smtp.host", hostName);
+    }
+
+    /**
+     * 设置超时时间
+     * @author lmiky
+     * @date 2015年8月11日 下午6:10:37
+     */
+    public void setProperties() {
+        if (props == null) {
+            // 获得系统属性对象
+            props = System.getProperties();
+        }
+        props.put("mail.smtp.timeout", "25000");
     }
 
     /**
@@ -152,7 +165,7 @@ public class Mail {
             mp.addBodyPart(bp);
             return true;
         } catch (Exception e) {
-            LoggerUtils.error("增加邮件附件：" + filename + "发生错误！" , e);
+            LoggerUtils.error("增加邮件附件：" + filename + "发生错误！", e);
             return false;
         }
     }
@@ -169,7 +182,7 @@ public class Mail {
             mimeMsg.setFrom(new InternetAddress(from)); // 设置发信人
             return true;
         } catch (Exception e) {
-            LoggerUtils.error("设置发信人错误！" , e);
+            LoggerUtils.error("设置发信人错误！", e);
             return false;
         }
     }
@@ -189,7 +202,7 @@ public class Mail {
             mimeMsg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             return true;
         } catch (Exception e) {
-            LoggerUtils.error("设置接收人错误！" , e);
+            LoggerUtils.error("设置接收人错误！", e);
             return false;
         }
     }
@@ -209,7 +222,7 @@ public class Mail {
             mimeMsg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(copyto));
             return true;
         } catch (Exception e) {
-            LoggerUtils.error("设置抄送人错误！" , e);
+            LoggerUtils.error("设置抄送人错误！", e);
             return false;
         }
     }
@@ -227,7 +240,7 @@ public class Mail {
             Transport.send(mimeMsg, mimeMsg.getAllRecipients());
             return true;
         } catch (Exception e) {
-            LoggerUtils.error("邮件发送失败！" , e);
+            LoggerUtils.error("邮件发送失败！", e);
             return false;
         }
     }
@@ -272,7 +285,7 @@ public class Mail {
      * @param username
      * @param password
      * @param from
-     * @param to    多个之间以“,”分隔
+     * @param to 多个之间以“,”分隔
      * @param subject
      * @param content
      * @return
@@ -332,7 +345,7 @@ public class Mail {
         if (theMail == null) {
             return false;
         }
-        for(String filename : filenames) {
+        for (String filename : filenames) {
             if (!theMail.addFileAffix(filename)) {
                 return false;
             }
@@ -364,7 +377,7 @@ public class Mail {
         if (theMail == null) {
             return false;
         }
-        for(String filename : filenames) {
+        for (String filename : filenames) {
             if (!theMail.addFileAffix(filename)) {
                 return false;
             }
@@ -379,9 +392,8 @@ public class Mail {
     }
 
     public static void main(String[] args) {
-         boolean sendReturn = Mail.sendAndCc("smtp.qq.com", "5487751", "xxxxxxx", "5487751@qq.com",
-         "5487751@qq.com,123456@qq.com",
-         "321456@qq.com", "主题test", "内容test");
+        boolean sendReturn = Mail.sendAndCc("smtp.qq.com", "5487751", "xxxxxxx", "5487751@qq.com",
+                "5487751@qq.com,123456@qq.com", "321456@qq.com", "主题test", "内容test");
         System.out.println(sendReturn);
     }
 }
