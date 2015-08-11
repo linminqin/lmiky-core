@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.lmiky.jdp.mail;
 
@@ -272,7 +272,7 @@ public class Mail {
      * @param username
      * @param password
      * @param from
-     * @param to
+     * @param to    多个之间以“,”分隔
      * @param subject
      * @param content
      * @return
@@ -323,17 +323,19 @@ public class Mail {
      * @param to
      * @param subject
      * @param content
-     * @param filename
+     * @param filenames
      * @return
      */
     public static boolean send(String smtp, String username, String password, String from, String to, String subject,
-            String content, String filename) {
+            String content, String... filenames) {
         Mail theMail = setSendAttribute(smtp, username, password, from, to, subject, content);
         if (theMail == null) {
             return false;
         }
-        if (!theMail.addFileAffix(filename)) {
-            return false;
+        for(String filename : filenames) {
+            if (!theMail.addFileAffix(filename)) {
+                return false;
+            }
         }
         if (!theMail.sendOut()) {
             return false;
@@ -353,17 +355,19 @@ public class Mail {
      * @param copyto
      * @param subject
      * @param content
-     * @param filename
+     * @param filenames
      * @return
      */
     public static boolean sendAndCc(String smtp, String username, String password, String from, String to,
-            String copyto, String subject, String content, String filename) {
+            String copyto, String subject, String content, String... filenames) {
         Mail theMail = setSendAttribute(smtp, username, password, from, to, subject, content);
         if (theMail == null) {
             return false;
         }
-        if (!theMail.addFileAffix(filename)) {
-            return false;
+        for(String filename : filenames) {
+            if (!theMail.addFileAffix(filename)) {
+                return false;
+            }
         }
         if (!theMail.setCopyTo(copyto)) {
             return false;
