@@ -293,7 +293,11 @@ public class Mail {
     public static boolean send(String smtp, String username, String password, String from, String to, String subject,
             String content) {
         Mail theMail = setSendAttribute(smtp, username, password, from, to, subject, content);
-        return theMail != null && theMail.sendOut();
+        if(theMail == null) {
+            return false;
+        }
+        doSend(theMail);
+        return true;
     }
 
     /**
@@ -319,9 +323,7 @@ public class Mail {
         if (!theMail.setCopyTo(copyto)) {
             return false;
         }
-        if (!theMail.sendOut()) {
-            return false;
-        }
+        doSend(theMail);
         return true;
     }
 
@@ -350,9 +352,7 @@ public class Mail {
                 return false;
             }
         }
-        if (!theMail.sendOut()) {
-            return false;
-        }
+        doSend(theMail);
         return true;
     }
 
@@ -385,12 +385,25 @@ public class Mail {
         if (!theMail.setCopyTo(copyto)) {
             return false;
         }
-        if (!theMail.sendOut()) {
-            return false;
-        }
+        doSend(theMail);
         return true;
     }
 
+    /**
+     * 执行发送
+     * @author lmiky
+     * @date 2015年8月11日 下午9:57:27
+     * @param theMail
+     */
+    private static void doSend(Mail theMail) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                theMail.sendOut();
+            }
+        }).start();
+    }
+    
     public static void main(String[] args) {
         boolean sendReturn = Mail.sendAndCc("smtp.qq.com", "5487751", "xxxxxxx", "5487751@qq.com",
                 "5487751@qq.com,123456@qq.com", "321456@qq.com", "主题test", "内容test");
