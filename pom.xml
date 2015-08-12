@@ -314,7 +314,7 @@
 			<artifactId>smack-extensions</artifactId>
 			<version>${org.igniterealtime.smack.version}</version>
 		</dependency>
-		
+
 		<!-- mail -->
 		<dependency>
 			<groupId>com.sun.mail</groupId>

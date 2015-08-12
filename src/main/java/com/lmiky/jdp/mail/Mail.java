@@ -293,7 +293,7 @@ public class Mail {
     public static boolean send(String smtp, String username, String password, String from, String to, String subject,
             String content) {
         Mail theMail = setSendAttribute(smtp, username, password, from, to, subject, content);
-        if(theMail == null) {
+        if (theMail == null) {
             return false;
         }
         doSend(theMail);
@@ -403,7 +403,7 @@ public class Mail {
             }
         }).start();
     }
-    
+
     public static void main(String[] args) {
         boolean sendReturn = Mail.sendAndCc("smtp.qq.com", "5487751", "xxxxxxx", "5487751@qq.com",
                 "5487751@qq.com,123456@qq.com", "321456@qq.com", "主题test", "内容test");
