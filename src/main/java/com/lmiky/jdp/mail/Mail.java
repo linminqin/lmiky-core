@@ -3,6 +3,8 @@
  */
 package com.lmiky.jdp.mail;
 
+import com.lmiky.jdp.logger.util.LoggerUtils;
+
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -17,8 +19,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import com.lmiky.jdp.logger.util.LoggerUtils;
-
 /**
  * 邮件
  * @author lmiky
@@ -31,38 +31,29 @@ public class Mail {
     private Session session; // 邮件会话对象
     private Properties props; // 系统属性
     private static boolean needAuth = true; // smtp是否需要认证
+    private String hostName; // 域名
+    private String protocol; // 发送协议
     private String username; // smtp认证用户名
     private String password; // smtp认证密码
     private Multipart mp; // Multipart对象,邮件内容,标题,附件等内容均添加到其中后再生成MimeMessage对象
     private SimpleAuthenticator authenticator;// 邮件服务器登录验证
 
     /**
-     * @param smtp
+     * 构造函数
+     * @param hostName 域名
+     * @param username 用户名
+     * @param password 密码
      */
-    public Mail(String smtp, String username, String password) {
+    public Mail(String hostName, String username, String password) {
+        this.hostName = hostName;
         this.username = username;
         this.password = password;
-        setSmtpHost(smtp);
+        setProperties();
         createMimeMessage();
     }
 
     /**
-     * 设置邮件发送服务器
-     * @author lmiky
-     * @date 2015年8月10日 下午10:07:00
-     * @param hostName
-     */
-    public void setSmtpHost(String hostName) {
-        if (props == null) {
-            // 获得系统属性对象
-            props = System.getProperties();
-        }
-        // 设置SMTP主机
-        props.put("mail.smtp.host", hostName);
-    }
-
-    /**
-     * 设置超时时间
+     * 设置邮件属性
      * @author lmiky
      * @date 2015年8月11日 下午6:10:37
      */
@@ -71,7 +62,42 @@ public class Mail {
             // 获得系统属性对象
             props = System.getProperties();
         }
-        props.put("mail.smtp.timeout", "25000");
+        protocol = hostName.substring(0, hostName.indexOf("."));
+        setHost();
+        setNeedAuth(needAuth); // 需要验证
+        putProperty("timeout", "15000");
+    }
+
+    /**
+     * 设置邮件发送服务器
+     * @author lmiky
+     * @date 2015年8月10日 下午10:07:00
+     */
+    public void setHost() {
+        putProperty("host", hostName);
+    }
+
+    /**
+     * 设置SMTP是否需要验证
+     * @author lmiky
+     * @date 2015年8月10日 下午10:11:10
+     * @param need
+     */
+    public void setNeedAuth(boolean need) {
+        putProperty("auth", String.valueOf(need));
+    }
+
+    /**
+     * 放入属性值
+     * @param propertyName
+     * @param propertyValue
+     * @author lmiky
+     * @date 2015年8月14日 上午11:00:25
+     */
+    public void putProperty(String propertyName, Object propertyValue) {
+        if (propertyValue != null) {
+            props.put("mail." + protocol + "." + propertyName, propertyValue);
+        }
     }
 
     /**
@@ -98,19 +124,6 @@ public class Mail {
             LoggerUtils.error("创建MIME邮件对象失败！", e);
             return false;
         }
-    }
-
-    /**
-     * 设置SMTP是否需要验证
-     * @author lmiky
-     * @date 2015年8月10日 下午10:11:10
-     * @param need
-     */
-    public void setNeedAuth(boolean need) {
-        if (props == null) {
-            props = System.getProperties();
-        }
-        props.put("mail.smtp.auth", String.valueOf(need));
     }
 
     /**
@@ -246,22 +259,20 @@ public class Mail {
     }
 
     /**
-     * 设置公共发送属性
+     * 构建并设置公共发送属性
+     * @param smtp 邮件服务器 @param username 登录用户名
+     * @param password 邮件登录密码
+     * @param from 邮件发送者
+     * @param to 邮件接收者
+     * @param subject 邮件主题
+     * @param content 邮件内容
+     * @return 邮件实体类
      * @author lmiky
      * @date 2015年8月10日 下午10:41:32
-     * @param smtp
-     * @param username
-     * @param password
-     * @param from
-     * @param to
-     * @param subject
-     * @param content
-     * @return
      */
     private static Mail setSendAttribute(String smtp, String username, String password, String from, String to,
             String subject, String content) {
         Mail theMail = new Mail(smtp, username, password);
-        theMail.setNeedAuth(needAuth); // 需要验证
         if (!theMail.setSubject(subject)) {
             return null;
         }
@@ -279,16 +290,15 @@ public class Mail {
 
     /**
      * 调用sendOut方法完成邮件发送
+     * @param smtp 邮件服务器 @param username 登录用户名
+     * @param password 邮件登录密码
+     * @param from 邮件发送者
+     * @param to 邮件接收者
+     * @param subject 邮件主题
+     * @param content 邮件内容
+     * @return 是否成功
      * @author lmiky
      * @date 2015年8月10日 下午10:41:20
-     * @param smtp
-     * @param username
-     * @param password
-     * @param from
-     * @param to 多个之间以“,”分隔
-     * @param subject
-     * @param content
-     * @return
      */
     public static boolean send(String smtp, String username, String password, String from, String to, String subject,
             String content) {
@@ -301,45 +311,18 @@ public class Mail {
     }
 
     /**
-     * 调用sendOut方法完成邮件发送,带抄送
-     * @author lmiky
-     * @date 2015年8月10日 下午10:41:10
-     * @param smtp
-     * @param username
-     * @param password
-     * @param from
-     * @param to
-     * @param copyto
-     * @param subject
-     * @param content
-     * @return
-     */
-    public static boolean sendAndCc(String smtp, String username, String password, String from, String to,
-            String copyto, String subject, String content) {
-        Mail theMail = setSendAttribute(smtp, username, password, from, to, subject, content);
-        if (theMail == null) {
-            return false;
-        }
-        if (!theMail.setCopyTo(copyto)) {
-            return false;
-        }
-        doSend(theMail);
-        return true;
-    }
-
-    /**
      * 调用sendOut方法完成邮件发送,带附件
+     * @param smtp 邮件服务器
+     * @param username 登录用户名
+     * @param password 邮件登录密码
+     * @param from 邮件发送者
+     * @param to 邮件接收者
+     * @param subject 邮件主题
+     * @param content 邮件内容
+     * @param filenames 邮件附件列表
+     * @return 是否成功
      * @author lmiky
      * @date 2015年8月10日 下午10:40:58
-     * @param smtp
-     * @param username
-     * @param password
-     * @param from
-     * @param to
-     * @param subject
-     * @param content
-     * @param filenames
-     * @return
      */
     public static boolean send(String smtp, String username, String password, String from, String to, String subject,
             String content, String... filenames) {
@@ -357,19 +340,44 @@ public class Mail {
     }
 
     /**
+     * 调用sendOut方法完成邮件发送,带抄送
+     * @param smtp 邮件服务器 @param username 登录用户名
+     * @param password 邮件登录密码
+     * @param from 邮件发送者
+     * @param to 邮件接收者
+     * @param copyto 邮件抄送
+     * @param subject 邮件主题
+     * @param content 邮件内容
+     * @return 是否成功
+     * @author lmiky
+     * @date 2015年8月10日 下午10:41:10
+     */
+    public static boolean sendAndCc(String smtp, String username, String password, String from, String to,
+            String copyto, String subject, String content) {
+        Mail theMail = setSendAttribute(smtp, username, password, from, to, subject, content);
+        if (theMail == null) {
+            return false;
+        }
+        if (!theMail.setCopyTo(copyto)) {
+            return false;
+        }
+        doSend(theMail);
+        return true;
+    }
+
+    /**
      * 调用sendOut方法完成邮件发送,带附件和抄送
+     * @param smtp 邮件服务器 @param username 登录用户名
+     * @param password 邮件登录密码
+     * @param from 邮件发送者
+     * @param to 邮件接收者
+     * @param copyto 邮件抄送
+     * @param subject 邮件主题
+     * @param content 邮件内容
+     * @param filenames 邮件附件列表
+     * @return 是否成功
      * @author lmiky
      * @date 2015年8月10日 下午10:41:55
-     * @param smtp
-     * @param username
-     * @param password
-     * @param from
-     * @param to
-     * @param copyto
-     * @param subject
-     * @param content
-     * @param filenames
-     * @return
      */
     public static boolean sendAndCc(String smtp, String username, String password, String from, String to,
             String copyto, String subject, String content, String... filenames) {
@@ -391,22 +399,27 @@ public class Mail {
 
     /**
      * 执行发送
+     * @param theMail 要发送的邮件
      * @author lmiky
      * @date 2015年8月11日 下午9:57:27
-     * @param theMail
      */
     private static void doSend(Mail theMail) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                theMail.sendOut();
+                try {
+                    boolean sendResult = theMail.sendOut();
+                    LoggerUtils.info("邮件发送结果：" + sendResult);
+                } catch (Exception e) {
+                    LoggerUtils.error("邮件发送失败！", e);
+                }
             }
         }).start();
     }
 
     public static void main(String[] args) {
-        boolean sendReturn = Mail.sendAndCc("smtp.qq.com", "5487751", "xxxxxxx", "5487751@qq.com",
-                "5487751@qq.com,123456@qq.com", "321456@qq.com", "主题test", "内容test");
+        boolean sendReturn = Mail.sendAndCc("smtp.qq.com", "5487751", "xxxxx", "5487751@qq.com", "5487751@qq.com",
+                "321456@qq.com", "主题test", "内容test");
         System.out.println(sendReturn);
     }
 }
