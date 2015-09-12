@@ -21,7 +21,7 @@ import com.lmiky.jdp.controller.BaseController;
 public class CacheController extends BaseController {
 	private CacheFactory cacheFactory;
 
-	
+
 	/**
 	 * 清除所有缓存
 	 * @author lmiky

@@ -11,5 +11,5 @@
 	<bean id="cacheFactory" class="com.lmiky.jdp.cache.ehcache.CacheFactoryImpl" init-method="init" destroy-method="destory">
 		<property name="configPath" value="config/ehcache.xml"/> <!-- 配置文件路径 -->
 	</bean>
-	
+
 </beans>
